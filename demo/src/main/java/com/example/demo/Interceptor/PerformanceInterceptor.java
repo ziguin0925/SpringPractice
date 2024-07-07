@@ -19,7 +19,7 @@ public class PerformanceInterceptor implements HandlerInterceptor { // 단일 �
 //        request.setAttribute("startTime", startTime); // request객체에 startTime을 저장
 
         //  handler - 요청하고 연결된 컨트롤러의 메서드
-        HandlerMethod method = (HandlerMethod) handler;
+//        HandlerMethod method = (HandlerMethod) handler;
 //        System.out.println("method.getMethod() = " + method.getMethod()); // URL하고 연결된 메서드
 //        System.out.println("method.getBean() = " + method.getBean()); // 메서드가 포함된 컨트롤러
 

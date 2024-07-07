@@ -1,5 +1,6 @@
 package com.example.demo.BasicPackage;
 
+import com.example.demo.JPA.ExJpa;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,6 +11,9 @@ public class HelloController {
     // 2. URL과 메서드를 연결
     @RequestMapping("/")
     public String main() {
+        ExJpa exJpa = new ExJpa();
+
+        exJpa.exJpa();
         System.out.println("Hello");
         return "index";
     }
