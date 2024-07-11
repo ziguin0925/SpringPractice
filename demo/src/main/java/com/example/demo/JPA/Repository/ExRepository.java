@@ -1,11 +1,8 @@
-package com.example.demo.JPA;
+package com.example.demo.JPA.Repository;
 
 import com.example.demo.JPA.Entity.User;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.PersistenceUnit;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 
 public class ExRepository {

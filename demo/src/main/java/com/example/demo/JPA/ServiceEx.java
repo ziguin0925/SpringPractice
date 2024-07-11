@@ -13,9 +13,9 @@ JPA를 통한 모든 데이터 변경은 트랜잭션 안에서 실행해야 한
 @Transactional
 public class ServiceEx {
 
-    private final com.example.demo.JPA.ExRepository ExRepository;
+    private final com.example.demo.JPA.Repository.ExRepository ExRepository;
 
-    public ServiceEx(com.example.demo.JPA.ExRepository ExRepository) {
+    public ServiceEx(com.example.demo.JPA.Repository.ExRepository ExRepository) {
         this.ExRepository = ExRepository;
     }
     public void save(User user){

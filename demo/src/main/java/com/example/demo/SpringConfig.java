@@ -1,6 +1,6 @@
 package com.example.demo;
 
-import com.example.demo.JPA.ExRepository;
+import com.example.demo.JPA.Repository.ExRepository;
 import com.example.demo.JPA.ServiceEx;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
