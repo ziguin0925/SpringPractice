@@ -35,6 +35,7 @@ class BoardRepositoryTest2 {
 
     @Test
     @Order(1)
+    @DisplayName("countTest")
     public void countTest() {
         long count = boardRepository.count();
         assertEquals(100L, count);
@@ -42,7 +43,8 @@ class BoardRepositoryTest2 {
 
     @Test
     @Order(2)
-    public void witerCount() {
+    @DisplayName("writerCount")
+    public void writerCount() {
 
         long count = boardRepository.countAllByWriter("writer1");
         assertEquals(20, count);
@@ -51,6 +53,7 @@ class BoardRepositoryTest2 {
 
     @Test
     @Order(3)
+    @DisplayName("findByWriterTest")
     public void findByWriterTest() {
         List<Board> boards = boardRepository.findByWriter("writer1");
         assertTrue(boards.size() ==20);
@@ -59,10 +62,12 @@ class BoardRepositoryTest2 {
 
     @Test
     @Order(4)
+    @DisplayName("deleteByWriterTest")
     public void deleteByWriterTest() {
         boardRepository.deleteByWriter("writer1");
         List<Board> boards = boardRepository.findByWriter("writer1");
         assertTrue(boards.size() ==0);
     }
+
 
 }
