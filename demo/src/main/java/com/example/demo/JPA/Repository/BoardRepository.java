@@ -28,6 +28,7 @@ public interface BoardRepository extends CrudRepository<Board, Long> {
     List<Object[]> nativeQuery2();
 
 
+    //아래는 spring date JPA
 
     //SELECT COUNT(*) FROM BOARD WHERE WRITER = writer;
     int countAllByWriter(String writer);

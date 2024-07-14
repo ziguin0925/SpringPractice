@@ -6,18 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 public class ExRepository {
-
-    private EntityManager em;
-
-    @Autowired
-    public ExRepository(EntityManager em){
-        this.em = em;
-
-    }
-
-    public void save(User user) {
-        em.persist(user);
-        //이거만 가능.
+//
+//    private EntityManager em;
+//
+//    @Autowired
+//    public ExRepository(EntityManager em){
+//        this.em = em;
+//
+//    }
+//
+//    public void save(User user) {
+//        em.persist(user);
+//        //이거만 가능.
 
 //        EntityTransaction tx = em.getTransaction();
 //        try{
@@ -27,5 +27,5 @@ public class ExRepository {
 //        }finally {
 //            em.close();
 //        }
-    }
+//    }
 }

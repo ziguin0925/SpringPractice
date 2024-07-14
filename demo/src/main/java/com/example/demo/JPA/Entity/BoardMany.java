@@ -6,27 +6,23 @@ import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
-public class Board {
+public class BoardMany {
 
-    @Override
-    public String toString() {
-        return "Board{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", writer='" + writer + '\'' +
-                ", content='" + content + '\'' +
-                ", viewCnt=" + viewCnt +
-                ", inDate=" + inDate +
-                ", upDate=" + upDate +
-                '}';
-    }
+    //한유저가 많은 게시판을 작성한 경우.
 
     @Id
     @GeneratedValue
     private Long id;
     private String title;
-    private String writer;
+
+
+    //여러 Board에 유저는 한명
+    @ManyToOne
+    @JoinColumn(name="user_id", nullable=false)
+    private User user;
+
     private String content;
+
 
     private Long viewCnt;
 
@@ -34,6 +30,32 @@ public class Board {
     private Date inDate;
     @Temporal(value = TemporalType.DATE)
     private Date upDate;
+
+
+
+    //user 와 ManyBoard 에서 둘다 toString을 호출하면 스택 넘침.
+    //Board tostring 시에 일단 user 빼주기
+    @Override
+    public String toString() {
+        return "Board{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+//                ", user=" + user +
+                ", content='" + content + '\'' +
+                ", viewCnt=" + viewCnt +
+                ", inDate=" + inDate +
+                ", upDate=" + upDate +
+                '}';
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
 
     public Long getId() {
         return id;
@@ -51,13 +73,6 @@ public class Board {
         this.title = title;
     }
 
-    public String getWriter() {
-        return writer;
-    }
-
-    public void setWriter(String writer) {
-        this.writer = writer;
-    }
 
     public String getContent() {
         return content;
