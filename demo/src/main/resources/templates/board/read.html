@@ -67,7 +67,7 @@
 <div class="container">
     <h2 th:class="writing-header">게시판 읽기</h2>
     <form id="form" class="frm" action="" method="post">
-        <input type="hidden" name="bno" th:value="${board.bno}">
+        <input type="hidden" name="id" th:value="${board.id}">
 
         <input name="user" type="hidden" th:value="${board.user.id}" readonly='readonly'>
         <input name="title" type="text" th:value="${board.title}" readonly='readonly'><br>
@@ -82,13 +82,13 @@
             if(!confirm("정말로 삭제하시겠습니까?")) return;
 
             let form = $("#form");
-            form.attr("action", "[[@{/board/remove(bno=${board.bno})}]]");
+            form.attr("action", "[[@{/board/remove(id=${board.id})}]]");
             form.attr("method", "post");
             form.submit();
         });
 
         $("#modifyBtn").on("click", function(){
-            location.href="[[@{/board/modify(bno=${board.bno})}]]"
+            location.href="[[@{/board/modify(id=${board.id})}]]"
         });
 
         $("#listBtn").on("click", function(){
