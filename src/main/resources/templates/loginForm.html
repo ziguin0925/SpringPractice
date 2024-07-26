@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/mainLayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div layout:fragment="content">
+<h1 th:text="${msg}">로그인 페이지 입니다.</h1>
+    <h1 th:if="${msg == null}">로그인 페이지 입니다.</h1>
+<form action="/login/login" method="POST">
+    id:<br>
+    <input type="text" name="id"><br>
+    pwd:<br>
+    <input type="password" name="password"><br>
+    <input type="submit" value="로그인">
+</form>
+</div>
+</body>
+</html>

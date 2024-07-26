@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/mainLayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo</title>
+    <!--css 추가가 되지않아 동적으로 추가해줌. -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}" />
+</head>
+<body>
+<div layout:fragment="content">
+    <div style="text-align:center">
+        <div>
+            <table>
+                <tr>
+                    <th >번호</th>
+                    <th >제목</th>
+                    <th >이름</th>
+                    <th >등록일</th>
+                    <th >조회수</th>
+                </tr>
+                <tr th:each="board : ${boardpages}">
+                    <td th:text="${board.id}" th:class="no">1</td>
+                    <td><a th:href="@{/board/read(id=${board.id})}" th:text="${board.title}">없습니다.</a></td>
+                    <td th:text="${board.user.id}">없습</td>
+                    <td th:text="${#dates.format(board.upDate,'yyyy-MM-dd')}">2020-01-30</td>
+                    <td th:text="${board.viewCnt}" th:class="viewcnt">999</td>
+                </tr>
+            </table>
+
+            <br>
+            <!-- 첫번째 페이지로 이동 -->
+            <a th:href="@{/board/posts/paging(page=1)}">첫 페이지 </a>
+
+            <!-- 이전 링크 활성화 비활성화 -->
+            <a th:href="${boardpages.first} ? '#' : @{/board/posts/paging(page=${boardpages.number})}"> 이전 </a>
+
+            <!-- 페이지 번호 링크(현재 페이지는 숫자만)
+                    for(int page=startPage; page<=endPage; page++)-->
+            <span th:each="page: ${#numbers.sequence(startPage, endPage)}">
+
+                <!-- 현재페이지는 링크 없이 숫자만 -->
+                    <span th:if="${page == boardpages.number + 1}" th:text="${page}"></span>
+                <!-- 현재페이지 링크 X, 다른 페이지번호에는 링크를 보여준다 -->
+                    <span th:unless="${page == boardpages.number + 1}">
+                <a th:href="@{/board/posts/paging(page=${page})}" th:text="${page}"></a>
+                    </span>
+                </span>
+
+            <!-- 다음 링크 활성화 비활성화 -->
+            <a th:href="${boardpages.last} ? '#' : @{/board/posts/paging(page=${boardpages.number + 2})}"> 다음 </a>
+
+            <!-- 마지막 페이지로 이동 -->
+            <a th:href="@{/board/posts/paging(page=${boardpages.totalPages})}"> 마지막 페이지</a>
+            <br>
+            <button id="writeBtn" onclick="location.href='/board/write'"><i></i> 글쓰기</button>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
+

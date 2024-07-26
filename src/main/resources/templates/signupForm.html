@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/mainLayout}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Demo</title>
+</head>
+
+<div layout:fragment="content">
+    <body>
+    <h1 th:text="${msg}">
+    </h1>
+    <h1 th:if="${msg == null}">
+        회원 가입 페이지 입니다.
+    </h1>
+
+    <form action="signup" method="POST">
+        아이디  : <input type="text" name="id"><br>
+        패스워드 : <input type="password" name="password"><br>
+        이름 : <input type="text" name="name"><br>
+        이메일 : <input type="email" name="email"><br>
+        <label for="date">날짜를 선택하세요:</label>
+        <input type="date"
+               name="birth"
+               min="1900-06-20"
+               max="2020-06-05"
+               value="2000-09-25">
+        <br>
+        sns : <input type="text" name="sns"><br>
+        <input type="submit">
+        <!--  <button>로그인</button> -->
+    </form>
+
+    <div>
+        <button type="button" onclick="window.open('http://localhost:8080/');"> 홈으로 </button>
+        <!--  <a href="http://localhost:8080/ch2"> 홈으로 </a>  -->
+    </div>
+    </body>
+</div>
+
+</html>
