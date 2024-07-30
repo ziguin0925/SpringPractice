@@ -4,6 +4,7 @@ import com.example.demo.JPA.Entity.BoardMany;
 import com.example.demo.JPA.Entity.User;
 import com.example.demo.JPA.Repository.BoardRepositoryMany;
 import com.example.demo.JPA.Repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+@Transactional
 public class BoardService {
 
 
@@ -25,20 +27,27 @@ public class BoardService {
 
 
     //모든 게시물 가져오기
-    public Page<BoardMany> paging(Pageable pageable){
+    public Page<BoardMany> paging(Pageable pageable, String keyword){
         int page = pageable.getPageNumber()-1;//page위치에 있는 값은 0부터 시작
         int pageLimit = 2;
 
-        //한 페이지당 2개의 글, 정렬기준은 ID기준으로 내림차순.
-        Page<BoardMany> boardPages = boardRepository.findAll(PageRequest.of(page, pageLimit));
+        if(keyword == null || keyword.isEmpty()){
+            //한 페이지당 2개의 글, 정렬기준은 ID기준으로 내림차순.
+            Page<BoardMany> boardPages = boardRepository.findAll(PageRequest.of(page, pageLimit));
+            return boardPages;
+        }else {
+            Page<BoardMany> boardPages = boardRepository.findAllbyKeyword(PageRequest.of(page, pageLimit), keyword);
+            return boardPages;
+        }
 
         //DTO
         //Dto 만들면 바꿔주기.
 //        Page<BoardManyDto> boardManyDto = boardPages.map(boardPage -> new BoardManyDto(boardPage))
 
-        return boardPages;
+
 
     }
+
 
     //게시물 작성
     public BoardMany write(BoardMany board){

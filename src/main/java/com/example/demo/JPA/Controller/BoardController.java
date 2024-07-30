@@ -1,48 +1,70 @@
 package com.example.demo.JPA.Controller;
 
+import com.example.demo.JPA.Dto.BoardReplyDto;
+import com.example.demo.JPA.Dto.boardReadFormDto;
+import com.example.demo.JPA.Entity.Board;
 import com.example.demo.JPA.Entity.BoardMany;
+import com.example.demo.JPA.Entity.BoardReply;
 import com.example.demo.JPA.Entity.User;
+import com.example.demo.JPA.Repository.BoardReplyRepository;
+import com.example.demo.JPA.Service.BoardReplyService;
 import com.example.demo.JPA.Service.BoardService;
 import com.example.demo.JPA.Service.loginService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Enumeration;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/board")
+@RequiredArgsConstructor
 public class BoardController {
 
     @Autowired
     private final BoardService boardService;
 
     @Autowired
-    loginService ls;
+    private final BoardReplyService boardReplyService;
 
-    public BoardController(BoardService boardService) {
-        this.boardService = boardService;
-    }
+    @Autowired
+    private final loginService ls;
 
-    @GetMapping("/read")
-    public String read(Long id, Model model){
-        BoardMany boardMany = boardService.read(id);
-        model.addAttribute("board", boardMany);
+
+    @GetMapping("/read/{id}")
+    public String read( @PathVariable Long id
+            , @RequestParam(defaultValue = "0") int page
+            ,@RequestParam(defaultValue = "10") int size
+            , Model model){
+
+        boardReadFormDto boardReadFormDto = boardReplyService.getBoardWithReply(id, page, size);
+
+        if(boardReadFormDto != null){
+            model.addAttribute("boardMany", boardReadFormDto.getBoardMany());
+            model.addAttribute("Replies", boardReadFormDto.getBoardRepliesDto());
+        }
         return "board/read";
     }
 
     //@PageableDefault(page =1) :page는 기본으로 1페이지를 보여준다.
     @GetMapping("/posts/paging")
-    public String getList(@PageableDefault(page=1) Pageable pageable, Model model ){
-        Page<BoardMany> boardpages = boardService.paging(pageable);
+    public String getList(@PageableDefault(page=1) Pageable pageable, Model model, String keyword){
+
+
+        Page<BoardMany> boardpages = boardService.paging(pageable, keyword);
 
 
         /*
@@ -64,11 +86,38 @@ public class BoardController {
         return "board/list"; // (/board/list)도 된다.
     }
 
+    @GetMapping(value = "/posts/paging/search")
+    public String getSearchList(@PageableDefault(page=1) Pageable pageable, Model model, String keyword ){
+
+        System.out.println(keyword);
+        Page<BoardMany> boardpages = boardService.paging(pageable, keyword);
+
+
+        int blockLimit = 3;
+        int startPage = (((int)Math.ceil(((double)pageable.getPageNumber()/blockLimit))-1)*blockLimit+1);
+        int endPage = Math.min((startPage + blockLimit - 1), boardpages.getTotalPages());
+
+        model.addAttribute("boardpages", boardpages);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        return "board/searchlist"; // (/board/list)도 된다.
+    }
+
+
 
     @PostMapping("remove")
-    public String remove(Long id, Model model){
-        boardService.remove(id);
-        return "redirect:/board/posts/paging";
+    public String remove(HttpServletRequest request,String user, Long id, Model model){
+        HttpSession session =request.getSession();
+        ;
+
+
+        if(user.equals(session.getAttribute("id"))){
+            boardService.remove(id);
+            return "redirect:/board/posts/paging";
+        }
+
+        model.addAttribute("msg","삭제 권한이 없습니다.");
+        return "redirect:/board/read/" + id;
     }
 
 
@@ -132,6 +181,22 @@ public class BoardController {
     public String modify(BoardMany board){
         boardService.modify(board);
         return "redirect:/board/list";
+    }
+
+    @PostMapping("board/reply")
+    @ResponseBody
+    public ResponseEntity<Page<BoardReplyDto>> replyUpdate(@PageableDefault(page=1) Pageable pageable
+                                                        , @RequestBody BoardReplyDto boardReplyDto){
+
+        //RequestBody 빼면 사라짐.
+        System.out.println(boardReplyDto);
+        boardReplyDto.setReplyId(null);
+        boardReplyService.save(boardReplyDto);
+
+        Page<BoardReplyDto> Replies = boardReplyService.findReplies(pageable, boardReplyDto.getBoardId());
+        ResponseEntity<Page<BoardReplyDto>> responseEntity= new ResponseEntity<>(Replies, HttpStatus.OK);
+
+        return responseEntity;
     }
 
 }

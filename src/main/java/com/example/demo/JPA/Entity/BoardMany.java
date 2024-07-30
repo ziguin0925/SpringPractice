@@ -2,10 +2,15 @@ package com.example.demo.JPA.Entity;
 
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
+@Getter
+@Setter
 public class BoardMany {
 
     //한유저가 많은 게시판을 작성한 경우.
@@ -20,6 +25,9 @@ public class BoardMany {
     @ManyToOne
     @JoinColumn(name="user_id", nullable=false)
     private User user;
+
+    @OneToMany(mappedBy = "boardmany", fetch = FetchType.LAZY)
+    private List<BoardReply> replyList;
 
     private String content;
 
@@ -48,61 +56,5 @@ public class BoardMany {
                 '}';
     }
 
-    public User getUser() {
-        return user;
-    }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Long getViewCnt() {
-        return viewCnt;
-    }
-
-    public void setViewCnt(Long viewCnt) {
-        this.viewCnt = viewCnt;
-    }
-
-    public Date getInDate() {
-        return inDate;
-    }
-
-    public void setInDate(Date inDate) {
-        this.inDate = inDate;
-    }
-
-    public Date getUpDate() {
-        return upDate;
-    }
-
-    public void setUpDate(Date upDate) {
-        this.upDate = upDate;
-    }
 }

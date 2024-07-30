@@ -14,7 +14,7 @@ public class Cart {
     //Cart는 Member 한명밖에 못고름.
     //Member는 Cart 여러개 가능.
     @OneToOne
-    @JoinColumn(name ="member_id", nullable = false)
+    @JoinColumn(name ="member_id", nullable = false)//fk
     //@Column(name="member_id")과 1:1 연결이 됨.
     private Member member;
 

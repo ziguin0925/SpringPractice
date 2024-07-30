@@ -64,36 +64,95 @@
     </style>
 </head>
 <body>
+<p th:text="${param.msg}"></p>
 <div class="container">
     <h2 th:class="writing-header">게시판 읽기</h2>
     <form id="form" class="frm" action="" method="post">
-        <input type="hidden" name="id" th:value="${board.id}">
+        <input type="hidden" name="id" th:value="${boardMany.id}">
 
-        <input name="user" type="hidden" th:value="${board.user.id}" readonly='readonly'>
-        <input name="title" type="text" th:value="${board.title}" readonly='readonly'><br>
-        <textarea name="content" rows="20" th:text="${board.content}">content</textarea><br>
+        <input name="user" type="hidden" th:value="${boardMany.user.id}" readonly='readonly'>
+        <input name="title" type="text" th:value="${boardMany.title}" readonly='readonly'><br>
+        <textarea name="content" rows="20" th:text="${boardMany.content}">content</textarea><br>
 
         <button type="button" id="modifyBtn" class="btn btn-modify"><i class="fa fa-edit"></i> 수정</button>
         <button type="button" id="removeBtn" class="btn btn-remove"><i class="fa fa-trash"></i> 삭제</button>
         <button type="button" id="listBtn" class="btn btn-list"><i class="fa fa-bars"></i>목록</button>
     </form>
+    <div>
+        <h2>Replies</h2>
+        <form action="/board/board/reply" method="POST">
+            <input type ="hidden" name = "userId" th:value="${session.id}">
+            <input type ="text" name = "replyContent" >
+            <input type ="hidden" name = "boardId" th:value="${boardMany.id}">
+            <input name="userId" type="hidden" th:value="${boardMany.user.id}">
+            <button class ="btn-comment-write"> 작성 </button>
+        </form>
+        <ul th:each=" Reply : ${Replies}">
+            <td th:text="${Reply.userId}" th:class="no">1</td>
+            <td th:text="${Reply.replyContent}" th:class="no">nothing</td>
+        </ul>
+
+        <!-- Pagination controls -->
+        <div>
+            <a th:if="${Replies.hasPrevious()}" th:href="@{|/board/read/${boardMany.id}?page=${Replies.number - 1}#size=${Replies.size}|}">Previous</a>
+            <span>Page [[${Replies.number + 1}]]</span>
+            <a th:if="${Replies.hasNext()}" th:href="@{|/board/read/${boardMany.id}?page=${Replies.number + 1}#size=${Replies.size}|}">Next</a>
+        </div>
+    </div>
     <script>
         $("#removeBtn").on("click", function(){
             if(!confirm("정말로 삭제하시겠습니까?")) return;
 
             let form = $("#form");
-            form.attr("action", "[[@{/board/remove(id=${board.id})}]]");
+            form.attr("action", "[[@{/board/remove(id=${boardMany.id})}]]");
             form.attr("method", "post");
             form.submit();
         });
 
         $("#modifyBtn").on("click", function(){
-            location.href="[[@{/board/modify(id=${board.id})}]]"
+            location.href="[[@{/board/modify(id=${boardMany.id})}]]"
         });
 
         $("#listBtn").on("click", function(){
             location.href="[[@{/board/list}]]";
         });
+
+
+        $("#btn-comment-write").click(function() {
+
+
+            var boardReplyDto = {
+                replyId : -1,
+                boardId,
+                userId,
+                replyContent,
+                createTime : null,
+
+            };
+
+
+
+            if (confirm("댓글을 작성하시겠습니까?")) {
+                $.ajax({
+                    type : "post",
+                    url : "/board/board/reply",
+                    // post mapping이므로 CSRF 토큰을 설정한다.
+                    // 댓글 정보를 data로 전달함
+                    contentType : "application/json",
+                    data : JSON.stringify(boardReplyDto),
+                    dataType : "json",
+                    success : function(result, status) {
+                        alert("댓글이 작성되었습니다.");
+                    },
+                    error: function(xhr, status, error) {
+                        alert("댓글 작성 중 오류가 발생했습니다.");
+                        console.error("Error: ", status, error);
+                    }
+                })
+            }
+        })
+
+
     </script>
 </div>
 </body>

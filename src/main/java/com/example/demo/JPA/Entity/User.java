@@ -31,6 +31,8 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     List<BoardMany> list = new ArrayList<BoardMany>();
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    List<BoardReply> replyList = new ArrayList<BoardReply>();
 
     private String name;
 
