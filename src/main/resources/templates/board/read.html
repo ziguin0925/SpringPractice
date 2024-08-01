@@ -67,7 +67,7 @@
 <p th:text="${param.msg}"></p>
 <div class="container">
     <h2 th:class="writing-header">게시판 읽기</h2>
-    <form id="form" class="frm" action="" method="post">
+    <form id="form" class="frm" action="" method="get">
         <input type="hidden" name="id" th:value="${boardMany.id}">
 
         <input name="user" type="hidden" th:value="${boardMany.user.id}" readonly='readonly'>
@@ -80,26 +80,39 @@
     </form>
     <div>
         <h2>Replies</h2>
-        <form action="/board/board/reply" method="POST">
-            <input type ="hidden" name = "userId" th:value="${session.id}">
-            <input type ="text" name = "replyContent" >
-            <input type ="hidden" name = "boardId" th:value="${boardMany.id}">
+        <div id = "createReply" onsubmit="btn-comment-write">
+            <input type ="hidden" id="userId" name = "userId" th:value="${session.id}">
+            <input type ="text" id = "replyContent" name = "replyContent" placeholder="내용">
+            <input type ="hidden" id = "boardManyId" name = "boardId" th:value="${boardMany.id}">
             <input name="userId" type="hidden" th:value="${boardMany.user.id}">
-            <button class ="btn-comment-write"> 작성 </button>
-        </form>
-        <ul th:each=" Reply : ${Replies}">
-            <td th:text="${Reply.userId}" th:class="no">1</td>
-            <td th:text="${Reply.replyContent}" th:class="no">nothing</td>
-        </ul>
-
-        <!-- Pagination controls -->
-        <div>
-            <a th:if="${Replies.hasPrevious()}" th:href="@{|/board/read/${boardMany.id}?page=${Replies.number - 1}#size=${Replies.size}|}">Previous</a>
-            <span>Page [[${Replies.number + 1}]]</span>
-            <a th:if="${Replies.hasNext()}" th:href="@{|/board/read/${boardMany.id}?page=${Replies.number + 1}#size=${Replies.size}|}">Next</a>
+            <button  id="comment-write-btn" onclick="commentWrite()"  > 작성 </button>
+        </div>
+        <div id="comment-list">
+            <table>
+                <tr>
+                    <th>댓글번호</th>
+                    <th>작성자</th>
+                    <th>내용</th>
+                    <th>작성시간</th>
+                </tr>
+                <tr th:each="Reply: ${Replies}">
+                    <td th:text="${Reply.replyId}"></td>
+                    <td th:text="${Reply.userId}"></td>
+                    <td th:text="${Reply.replyContent}"></td>
+                    <td th:text="${Reply.replyDate}"></td>
+                    <td><button  th:onclick="replyDelete([[${Reply.replyId}]])"> 삭제 </button></td>
+                </tr>
+            </table>
+<!--            <ul th:each=" Reply : ${Replies}">-->
+<!--                <td th:text="${Reply.userId}" th:class="no">1</td>-->
+<!--                <td>  -&#45;&#45;  </td>-->
+<!--                <td th:text="${Reply.replyContent}" th:class="no">nothing</td>-->
+<!--            </ul>-->
         </div>
     </div>
     <script>
+        console.log("asdf");
+
         $("#removeBtn").on("click", function(){
             if(!confirm("정말로 삭제하시겠습니까?")) return;
 
@@ -114,43 +127,102 @@
         });
 
         $("#listBtn").on("click", function(){
-            location.href="[[@{/board/list}]]";
+            location.href="[[@{/board/posts/paging}]]";
         });
 
 
-        $("#btn-comment-write").click(function() {
+        const commentWrite = () => {
+            console.log("AJAX 호출 시작");
 
 
-            var boardReplyDto = {
+            const boardReplyDto = {
                 replyId : -1,
-                boardId,
-                userId,
-                replyContent,
+                //<tag ... idsession.id="boardManyId" >
+                boardId : [[${boardMany.id}]],//document.getElementById('boardManyId').value,
+                userId : "[[${session.id}]]",//document.getElementById('userId').value,
+                replyContent :document.getElementById('replyContent').value,
                 createTime : null,
-
             };
+            console.log(boardReplyDto);
+
+            // var header = $("meta[name='_csrf_header']").attr("content");
+            // var token = $("meta[name='_csrf']").attr("content");
+
+            $.ajax({
+                type : "POST",
+                url : "/board/reply/save",
+                // post mapping이므로 CSRF 토큰을 설정한다.
+                // 댓글 정보를 data로 전달함
+                contentType : "application/json",
+                // beforeSend : function(xhr) {xhr.setRequestHeader(header, token);},
+                //서버로 전송할 데이터
+                data : JSON.stringify(boardReplyDto),
+                dataType : "Json",
+                //function의 파라미터는 서버로 부터 받을 데이터.
+                success : function(res) {
+                    alert("댓글이 작성되었습니다.");
+                    getReplies(res);
+                },
+                error: function(xhr, status, error) {
+                    alert("댓글 작성 중 오류가 발생했습니다.");
+                    console.error("Error: ", status, error);
+                }
+            })
 
 
+        }
 
-            if (confirm("댓글을 작성하시겠습니까?")) {
-                $.ajax({
-                    type : "post",
-                    url : "/board/board/reply",
-                    // post mapping이므로 CSRF 토큰을 설정한다.
-                    // 댓글 정보를 data로 전달함
-                    contentType : "application/json",
-                    data : JSON.stringify(boardReplyDto),
-                    dataType : "json",
-                    success : function(result, status) {
-                        alert("댓글이 작성되었습니다.");
-                    },
-                    error: function(xhr, status, error) {
-                        alert("댓글 작성 중 오류가 발생했습니다.");
-                        console.error("Error: ", status, error);
-                    }
-                })
+        const replyDelete = (replyId) =>{
+            alert("삭제하시겠습니까?   :   "+replyId);
+            console.log([[${boardMany.id}]] +" "+ replyId)
+            $.ajax({
+                type: "DELETE",
+                url: "/board/reply",
+                contentType: "application/json",
+                data: JSON.stringify({
+                     boardId : [[${boardMany.id}]],
+                     replyId : replyId,
+                    userId : "[[${session.id}]]"
+                }),
+
+                dataType : "text",
+
+
+                success: function (res) {
+                    alert("댓글이 삭제되었습니다.");
+                    document.getElementById('comment-list').innerHTML = 0;
+                    getReplies(res);
+                },
+                error: function (xhr, status, error) {
+                    alert("댓글 삭제 중 오류가 발생했습니다.");
+                    console.error("Error: ", status, error);
+                }
+            })
+        }
+
+        const getReplies = (replies) => {
+
+            let output = "<table>";
+            output += "<tr><th>댓글번호</th>";
+            output += "<th>작성자</th>";
+            output += "<th>내용</th>";
+            output += "<th>작성시간</th>";
+            output += "<th></th></tr>"
+            for (let i in replies) {
+                output += "<tr>";
+                output += "<td>" + replies[i].replyId + "</td>";
+                output += "<td>" + replies[i].userId + "</td>";
+                output += "<td>" + replies[i].replyContent + "</td>";
+                output += "<td>" + replies[i].replyDate + "</td>";
+                output += "<td> <button th:onclick="+"replyDelete("+replies[i].replyId+")> 삭제 </button> </td>"
+                output += "</tr>";
             }
-        })
+            output += "</table>";
+            document.getElementById('comment-list').innerHTML = output;
+            // $('#replies').replaceWith(result);
+            //input 입력 값 초기화
+
+        }
 
 
     </script>

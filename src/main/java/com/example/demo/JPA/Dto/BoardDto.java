@@ -1,6 +1,7 @@
 package com.example.demo.JPA.Dto;
 
 import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Getter
 public class BoardDto {

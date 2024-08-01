@@ -46,22 +46,24 @@
             <!-- 페이지 번호 링크(현재 페이지는 숫자만)
                     for(int page=startPage; page<=endPage; page++)-->
             <span th:each="page: ${#numbers.sequence(startPage, endPage)}">
+                <span th:if="${page!=0}">
+                    <!-- 현재페이지는 링크 없이 숫자만  page가 boardpages.number+1이 될 때까지 밑에 페이지 선택 숫자 생성. get으로 page넘겨줌. -->
+                        <span th:if="${page == boardpages.number + 1}" th:text="${page}"></span>
+                    <!-- 현재페이지 링크 X, 다른 페이지번호에는 링크를 보여준다 -->
 
-                <!-- 현재페이지는 링크 없이 숫자만  page가 boardpages.number+1이 될 때까지 밑에 페이지 선택 숫자 생성. get으로 page넘겨줌. -->
-                    <span th:if="${page == boardpages.number + 1}" th:text="${page}"></span>
-                <!-- 현재페이지 링크 X, 다른 페이지번호에는 링크를 보여준다 -->
-                    <span th:unless="${page == boardpages.number + 1}">
-                <a th:href="@{/board/posts/paging(page=${page})}" th:text="${page}"></a>
+                        <span th:unless="${page == boardpages.number + 1}">
+                            <a th:href="@{/board/posts/paging(page=${page})}" th:text="${page}"></a>
+                        </span>
                     </span>
                 </span>
 
-            <!-- 다음 링크 활성화 비활성화 -->
-            <a th:href="${boardpages.last} ? '#' : @{/board/posts/paging(page=${boardpages.number + 2})}"> 다음 </a>
+                <!-- 다음 링크 활성화 비활성화 -->
+                    <a th:href="${boardpages.last} ? '#' : @{/board/posts/paging(page=${boardpages.number + 2})}"> 다음 </a>
 
-            <!-- 마지막 페이지로 이동 -->
-            <a th:href="@{/board/posts/paging(page=${boardpages.totalPages})}"> 마지막 페이지</a>
-            <br>
-            <button id="writeBtn" onclick="location.href='/board/write'"><i></i> 글쓰기</button>
+                    <!-- 마지막 페이지로 이동 -->
+                    <a th:href="${boardpages.isLast()} ? '#': @{/board/posts/paging(page=${boardpages.totalPages})}"> 마지막 페이지</a>
+                    <br>
+                    <button id="writeBtn" onclick="location.href='/board/write'"><i></i> 글쓰기</button>
         </div>
     </div>
 

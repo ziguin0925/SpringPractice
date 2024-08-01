@@ -18,6 +18,7 @@ public class BoardMany {
     @Id
     @GeneratedValue
     private Long id;
+
     private String title;
 
 
@@ -26,7 +27,7 @@ public class BoardMany {
     @JoinColumn(name="user_id", nullable=false)
     private User user;
 
-    @OneToMany(mappedBy = "boardmany", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "boardmany", fetch = FetchType.LAZY , cascade =CascadeType.ALL, orphanRemoval=true)
     private List<BoardReply> replyList;
 
     private String content;

@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<style>
+    a{
+        text-decoration-line:  none;
+    }
+</style>
 <div th:fragment="header">
     <div id="header">
         <ul>
@@ -7,7 +12,8 @@
             <a href="/board/posts/paging">Board</a></li><li>
             <a href="">Book</a></li><li>
             <a href="">FAQ</a></li><li>
-            <a href="/login/login">Login</a></li>
+            <a th:if="${session.id == null}" href="/login/login">Login</a></li><li>
+            <a th:unless="${session.id == null}" href="/logout/logout">logout</a></li><li>
             <a href="/signup/signup">signup</a></li>
         </ul>
     </div>

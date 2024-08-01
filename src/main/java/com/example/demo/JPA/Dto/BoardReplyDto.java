@@ -7,6 +7,9 @@ import lombok.*;
 import org.springframework.data.domain.Page;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -24,7 +27,7 @@ public class BoardReplyDto {
 
     private String replyContent;
 
-    private Date replyDate;
+    private LocalDateTime replyDate;
 
     public Page<BoardReplyDto> toDtoList(Page<BoardReply> boardReplies) {
         Page<BoardReplyDto> boardDtoList = boardReplies.map(m -> BoardReplyDto.builder()
@@ -34,6 +37,17 @@ public class BoardReplyDto {
                 .boardId(m.getBoardmany().getId())
                 .replyDate(m.getCreateDate())
                 .build());
+        return boardDtoList;
+    }
+    public List<BoardReplyDto> toDtoList(List<BoardReply> boardReplies) {
+        List<BoardReplyDto> boardDtoList = boardReplies.stream().map(m -> BoardReplyDto.builder()
+                .replyId(m.getReplyId())
+                .replyContent(m.getReplyContent())
+                .userId(m.getUser().getId())
+                .boardId(m.getBoardmany().getId())
+                .replyDate(m.getCreateDate())
+                .build()).toList();
+
         return boardDtoList;
     }
 }

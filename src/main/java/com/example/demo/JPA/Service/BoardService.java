@@ -12,12 +12,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.List;
 
 @Service
 @Transactional
 public class BoardService {
-
 
     @Autowired
     BoardRepositoryMany boardRepository;
@@ -27,24 +25,26 @@ public class BoardService {
 
 
     //모든 게시물 가져오기
-    public Page<BoardMany> paging(Pageable pageable, String keyword){
+    public Page<BoardMany> paging(Pageable pageable, String keyword) {
         int page = pageable.getPageNumber()-1;//page위치에 있는 값은 0부터 시작
         int pageLimit = 2;
-
-        if(keyword == null || keyword.isEmpty()){
-            //한 페이지당 2개의 글, 정렬기준은 ID기준으로 내림차순.
-            Page<BoardMany> boardPages = boardRepository.findAll(PageRequest.of(page, pageLimit));
-            return boardPages;
-        }else {
-            Page<BoardMany> boardPages = boardRepository.findAllbyKeyword(PageRequest.of(page, pageLimit), keyword);
-            return boardPages;
+        try{
+            if(keyword == null || keyword.isEmpty()){
+                //한 페이지당 2개의 글, 정렬기준은 ID기준으로 내림차순.
+                Page<BoardMany> boardPages = boardRepository.findAll(PageRequest.of(page, pageLimit));
+                return boardPages;
+            }else {
+                Page<BoardMany> boardPages = boardRepository.findAllbyKeyword(PageRequest.of(page, pageLimit), keyword);
+                return boardPages;
+            }
+        }catch (Exception e){
+            throw e;
         }
+
 
         //DTO
         //Dto 만들면 바꿔주기.
 //        Page<BoardManyDto> boardManyDto = boardPages.map(boardPage -> new BoardManyDto(boardPage))
-
-
 
     }
 
@@ -65,6 +65,7 @@ public class BoardService {
     }
 
     //게시물 수정
+    //cascade="all-delete-orphan" ERROR
     public BoardMany modify(BoardMany newboard){
         BoardMany board = boardRepository.findById(newboard.getId()).orElse(null);
 

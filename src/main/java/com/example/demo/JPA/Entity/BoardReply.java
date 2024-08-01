@@ -6,6 +6,8 @@ import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -30,6 +32,6 @@ public class BoardReply {
     private String replyContent;
 
     @CreatedDate
-    private Date createDate;
+    private LocalDateTime createDate;
 
 }
