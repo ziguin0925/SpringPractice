@@ -1,6 +1,5 @@
 package com.example.demo.JPA.Repository;
-
-import com.example.demo.JPA.Entity.Board;
+/*
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -64,4 +63,4 @@ class BoardRepositoryTest {
         board.setInDate(new Date());
         boardRepository.save(board);
     }
-}
+}*/

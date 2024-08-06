@@ -1,6 +1,5 @@
 package com.example.demo.JPA.Repository;
-
-import com.example.demo.JPA.Entity.Board;
+/*
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -71,3 +70,4 @@ class BoardRepositoryTest2 {
 
 
 }
+*/

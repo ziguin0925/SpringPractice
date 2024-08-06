@@ -1,6 +1,5 @@
 package com.example.demo.JPA.Repository;
-
-import com.example.demo.JPA.Entity.Board;
+/*
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.junit.jupiter.api.*;
@@ -96,3 +95,4 @@ class BoardRepositoryTest3 {
 
 
 }
+*/

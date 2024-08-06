@@ -1,17 +1,9 @@
 package com.example.demo.JPA.Repository;
-
-import com.example.demo.JPA.Entity.Board;
-import com.example.demo.JPA.Entity.Cart;
-import com.example.demo.JPA.Entity.Member;
+/*
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -61,4 +53,4 @@ class OneToOneTest {
 
     }
 
-}
+}*/

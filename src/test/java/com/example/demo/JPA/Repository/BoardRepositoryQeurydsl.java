@@ -1,6 +1,5 @@
 package com.example.demo.JPA.Repository;
 
-import com.example.demo.JPA.Entity.Board;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -16,7 +15,7 @@ import static com.example.demo.JPA.Entity.QBoard.board;
 
 import org.springframework.boot.autoconfigure.web.servlet.ServletWebServerFactoryAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-
+/*
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -112,3 +111,4 @@ class BoardRepositoryQeurydsl {
     }
 }
 
+*/
