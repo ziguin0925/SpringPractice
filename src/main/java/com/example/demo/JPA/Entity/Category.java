@@ -6,7 +6,7 @@ import lombok.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "category", uniqueConstraints = @UniqueConstraint(columnNames = "category_code"))
+@Table(name = "category")/*, uniqueConstraints = @UniqueConstraint(columnNames = "category_code"))*/
 @NoArgsConstructor
 @Getter
 @Setter
@@ -16,11 +16,11 @@ public class Category implements Serializable {
     @Column(name = "category_code", length = 3)
     private String categoryCode;
 
-    @Column(name = "category_name", length = 10)
+    @Column(name = "category_name", unique = true ,length = 10)
     private String categoryName;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "parent_category_code", referencedColumnName = "category_code")
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL) //OneToMany 쓰면 원래 했던 대로 안들어감. 원래 LAZY임.
+    @JoinColumn(name = "parent_category_code")
     private Category parentCategory;
 
 

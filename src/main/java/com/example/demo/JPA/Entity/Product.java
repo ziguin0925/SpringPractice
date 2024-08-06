@@ -21,15 +21,15 @@ public class Product {
     @Column(name = "product_code", length = 25, nullable = false)
     private String productCode;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)//LAZY
     @JoinColumn(name = "product_description_id", referencedColumnName = "product_description_id")
     private ProductDescription productDescription;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)//LAZY
     @JoinColumn(name = "category_code", referencedColumnName = "category_code")
     private Category category;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)//LAZY
     @JoinColumn(name = "brand_code", referencedColumnName = "brand_code")
     private Brand brand;
 
