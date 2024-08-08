@@ -16,27 +16,28 @@ import java.io.Serializable;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Brand{
+public class Brand extends BaseTimeEntity{
 
     @Id
-    @Column(name = "brand_code", length = 25)
-    private String brandCode;
+    @Column(name = "brand_id", length = 25)
+    private String brandId;
 
-    @Column(name = "brand_name", length = 20)
+    @Column(name = "name", length = 20)
     private String brandName;
 
-    @Column(name = "brand_img", length = 500)
+    @Column(name = "img", length = 500)
     private String brandImg;
 
-    @Column(name = "brand_product_num")
+    @Column(name = "product_num")
     private int brandProductNum;
 
 
     @Builder
-    public Brand(String brandCode, String brandName, String brandImg, int brandProductNum) {
-        this.brandCode = brandCode;
+    public Brand(String brandId, String brandName, String brandImg, int brandProductNum) {
+        this.brandId = brandId;
         this.brandName = brandName;
         this.brandImg = brandImg;
         this.brandProductNum = brandProductNum;
+
     }
 }

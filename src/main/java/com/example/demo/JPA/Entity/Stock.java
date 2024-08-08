@@ -21,15 +21,15 @@ public class Stock {
 
     @MapsId("product_code")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_code", referencedColumnName = "product_code")
+    @JoinColumn(name = "product_id", referencedColumnName = "product_id")
     private Product product;
 
     @Column(name = "quantity")
     private int quantity;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_time")
-    private LocalDateTime created_time;
+    @Column(name = "create_datetime")
+    private LocalDateTime create_time;
 
 
     @Builder
@@ -37,6 +37,6 @@ public class Stock {
         this.stockPK = stockPK;
         this.product = product;
         this.quantity = quantity;
-        this.created_time = created_time;
+        this.create_time = created_time;
     }
 }

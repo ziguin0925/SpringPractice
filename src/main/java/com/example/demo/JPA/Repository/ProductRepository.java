@@ -33,11 +33,11 @@ public interface ProductRepository extends JpaRepository<Product, String>
 */
 
     @Query("SELECT b FROM Product b WHERE b.productName like concat('%', :keyword, '%')")
-    Page<Product> findAllbyKeyword(PageRequest of, @Param("keyword") String keyword);
+    Page<Product> findAllByKeyword(PageRequest of, @Param("keyword") String keyword);
 
     //product_id가 없을 때 (첫번 째 요청)
-    List<Product> findByOrderByProductCodeDesc(Limit limit);
+    List<Product> findByOrderByProductIdDesc(Limit limit);
     //product_id가 있을 때 (두번 째 이후 요청)
-    List<Product> findByProductCodeLessThanOrderByProductCodeDesc(String product_id, Limit limit);
+    List<Product> findByProductIdLessThanOrderByProductIdDesc(String product_id, Limit limit);
 
 }

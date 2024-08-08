@@ -38,7 +38,7 @@ public class ProductRepositoryImpl implements CustomProductRepository{
             dateTime = dateTime.minusMonths(6);
         }
 
-        return QProduct.product.productCreateTime.after(dateTime);
+        return QProduct.product._super.createDateTime.after(dateTime);
     }
 
 
