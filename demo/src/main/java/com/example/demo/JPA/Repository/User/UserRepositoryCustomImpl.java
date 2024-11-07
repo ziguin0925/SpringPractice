@@ -36,10 +36,14 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
                         user.userId, user.username, user.nickname, user.email, user.imageUrL, user.phone, user.infoAgreement))
                 .where(user.email.eq(email))
                 .fetchOne()); // 하나의 객체 반활
-
     }
 
+
+
     /*
-    *
+    * 개인 정보 수정 요청
+    *  data : password, imageUrl, phone, email, nickName, infoAgreement, infoReceive
+    *   if문으로 null 처리, 유효성 검사로 정의.
     * */
+
 }

@@ -70,9 +70,9 @@ class UserRepositoryTest {
         System.out.println(userRepository.findById(1L).get());
 
         //Email은 jwt나 SecurityContext에서 가져오기
-        Optional<UserProfileDto> user = userRepository.findByEmail("jlwoo092513@gmail.com");
-        assertTrue(user.isPresent());
-        System.out.println(user.get());
+        Optional<UserProfileDto> user1 = userRepository.findByEmail(user.getEmail());
+        assertTrue(user1.isPresent());
+        System.out.println(user1.get());
     }
 
 
@@ -84,10 +84,14 @@ class UserRepositoryTest {
             BCryptPasswordEncoder 의 matchers로 확인. - 디코딩 불가 단방향 암호방식
             matchers(java.lang.CharSequence rawPassword, java.lang.String encodePassword)
          */
-        User user =createOneUser();
+        User user = createOneUser();
         String encodedPassword =  userRepository.findPasswordByEmail("jlwoo092513@gmail.com").orElseThrow(RuntimeException::new);
-        assertTrue(encodedPassword == user.getPassword());
+        assertTrue(Objects.equals(encodedPassword, user.getPassword()));
         System.out.println(encodedPassword);
     }
+
+
+
+
 
 }
