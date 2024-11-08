@@ -90,8 +90,11 @@ class UserRepositoryTest {
         System.out.println(encodedPassword);
     }
 
-
-
-
+    @Test
+    @Transactional
+    @DisplayName("branchTest")
+    public void testBranch(){
+        User user = createOneUser();
+    }
 
 }
