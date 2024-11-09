@@ -5,7 +5,6 @@ import com.example.demo.Entity.user.User;
 import com.example.demo.Entity.user.UserState;
 import com.example.demo.Entity.user.dto.ATestDto;
 import com.example.demo.Entity.user.dto.UserProfileDto;
-import lombok.Data;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,6 +107,13 @@ class UserRepositoryTest {
         ATestDto aTestDto = new ATestDto();
         aTestDto.setId(1);
         aTestDto.setUserId(3);
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("TestDtoCreate")
+    public void testDtoCreate(){
+        ATestDto testDto = new ATestDto();
     }
 
 }
