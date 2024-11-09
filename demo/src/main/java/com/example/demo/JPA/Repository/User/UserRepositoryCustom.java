@@ -12,6 +12,5 @@ public interface UserRepositoryCustom {
 
     Optional<UserProfileDto> findByEmail(String userName);
 
-    Optional<>
 
 }
