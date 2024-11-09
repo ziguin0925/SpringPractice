@@ -3,7 +3,9 @@ package com.example.demo.JPA.Repository.User;
 import com.example.demo.Entity.user.Role;
 import com.example.demo.Entity.user.User;
 import com.example.demo.Entity.user.UserState;
+import com.example.demo.Entity.user.dto.ATestDto;
 import com.example.demo.Entity.user.dto.UserProfileDto;
+import lombok.Data;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,6 +99,15 @@ class UserRepositoryTest {
     @DisplayName("git branch Test")
     public void testBranch(){
         System.out.println(" = " );
+    }
+
+
+    @Test
+    @DisplayName("ATestDto 파일 복붙, 수정, 사용시 merge test ")
+    public void testMerge(){
+        ATestDto aTestDto = new ATestDto();
+        aTestDto.setId(1);
+        aTestDto.setUserId(3);
     }
 
 }
