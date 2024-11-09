@@ -3,7 +3,9 @@ package com.example.demo.JPA.Repository.User;
 import com.example.demo.Entity.user.Role;
 import com.example.demo.Entity.user.User;
 import com.example.demo.Entity.user.UserState;
+import com.example.demo.Entity.user.dto.ATestDto;
 import com.example.demo.Entity.user.dto.UserProfileDto;
+import jakarta.transaction.TransactionScoped;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,5 +92,18 @@ class UserRepositoryTest {
         System.out.println(encodedPassword);
     }
 
+    @Test
+    @Transactional
+    @DisplayName("branchTest")
+    public void testBranch(){
+        User user = createOneUser();
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("TestDtoCreate")
+    public void testDtoCreate(){
+        ATestDto testDto = new ATestDto();
+    }
 
 }
