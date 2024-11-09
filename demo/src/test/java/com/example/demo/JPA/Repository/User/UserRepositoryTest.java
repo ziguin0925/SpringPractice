@@ -90,38 +90,4 @@ class UserRepositoryTest {
         System.out.println(encodedPassword);
     }
 
-
-
-    @Test
-    @Transactional
-    @DisplayName("git branch Test")
-    public void testBranch(){
-        System.out.println(" = " );
-
-    }
-
-
-    @Test
-    @DisplayName("ATestDto 파일 복붙, 수정, 사용시 merge test ")
-    public void testMerge(){
-        ATestDto aTestDto = new ATestDto();
-        aTestDto.setId(1);
-        aTestDto.setUserId(3);
-    }
-
-    @Test
-    @Transactional
-    @DisplayName("TestDtoCreate")
-    public void testDtoCreate(){
-        ATestDto testDto = new ATestDto();
-    }
-
-
-    @Test
-    @Transactional
-    @DisplayName("git branch Test")
-    public void testBranch(){
-        System.out.println(" = " );
-    }
-
 }
