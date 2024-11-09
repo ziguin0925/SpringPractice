@@ -90,11 +90,13 @@ class UserRepositoryTest {
         System.out.println(encodedPassword);
     }
 
+
+
     @Test
     @Transactional
-    @DisplayName("branchTest")
+    @DisplayName("git branch Test")
     public void testBranch(){
-        User user = createOneUser();
+        System.out.println(" = " );
     }
 
 }
