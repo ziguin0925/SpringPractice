@@ -3,8 +3,9 @@ package com.example.demo.Entity.user.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
+
 @Setter
+@Getter
 public class ATestDto {
     private int id;
     private long userId;
