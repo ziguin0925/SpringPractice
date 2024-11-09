@@ -117,4 +117,19 @@ class UserRepositoryTest {
         ATestDto testDto = new ATestDto();
     }
 
+
+    @Test
+    @Transactional
+    @DisplayName("git branch Test")
+    public void testBranch(){
+        System.out.println(" = " );
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("TestDtoCreate")
+    public void testDtoCreate(){
+        ATestDto testDto = new ATestDto();
+    }
+
 }
