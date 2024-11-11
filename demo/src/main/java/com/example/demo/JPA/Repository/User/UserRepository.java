@@ -1,7 +1,7 @@
 package com.example.demo.JPA.Repository.User;
 
 import com.example.demo.Entity.user.User;
-import com.example.demo.Entity.user.dto.UserProfileDto;
+import com.example.demo.Entity.user.dto.response.UserProfileDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
