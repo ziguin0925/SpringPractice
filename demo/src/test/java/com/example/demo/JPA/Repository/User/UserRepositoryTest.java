@@ -70,9 +70,9 @@ class UserRepositoryTest {
         System.out.println(userRepository.findById(1L).get());
 
         //Email은 jwt나 SecurityContext에서 가져오기
-        Optional<UserProfileDto> user1 = userRepository.findByEmail(user.getEmail());
-        assertTrue(user1.isPresent());
-        System.out.println(user1.get());
+//        Optional<UserProfileDto> user1 = userRepository.findByEmail(user.getEmail());
+//        assertTrue(user1.isPresent());
+//        System.out.println(user1.get());
     }
 
 

@@ -16,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -82,18 +83,5 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
         return hasText(nickname) ? user.username.eq(nickname) : null;
     }
 
-    private OrderSpecifier[] createOrderSpecifier(OrderCondition orderCondition) {
-
-        List<OrderSpecifier> orderSpecifiers = new ArrayList<>();
-
-        if(Objects.isNull(orderCondition)){
-            orderSpecifiers.add(new OrderSpecifier(Order.DESC, user.username));
-        }else if(orderCondition.equals("latest")){
-            orderSpecifiers.add(new OrderSpecifier(Order.DESC, person.age));
-        }else {//
-            orderSpecifiers.add(new OrderSpecifier(Order.DESC, user.));
-        }
-        return orderSpecifiers.toArray(new OrderSpecifier[orderSpecifiers.size()]);
-    }
 
 }
