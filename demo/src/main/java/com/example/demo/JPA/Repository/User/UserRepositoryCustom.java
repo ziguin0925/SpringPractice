@@ -13,7 +13,7 @@ public interface UserRepositoryCustom {
 
     List<User> findByUN(String userName);
 
-    Optional<UserProfileDto> findByEmail(String email);
+    Optional<UserProfileDto> findByEmail(String userName);
 
     Page<UserProfileDto> getAdminUsersPage(UserAdminPageRequestDto pageRequestDto, Pageable pageRequest);
 
