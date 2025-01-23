@@ -1,4 +1,4 @@
-package com.example.demo.Fileter;
+package com.example.demo.Filter;
 
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;

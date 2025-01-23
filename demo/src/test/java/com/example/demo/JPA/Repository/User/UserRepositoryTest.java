@@ -4,8 +4,10 @@ import com.example.demo.Entity.user.Role;
 import com.example.demo.Entity.user.User;
 import com.example.demo.Entity.user.UserState;
 import com.example.demo.Entity.user.dto.UserProfileDto;
+import com.example.demo.JPA.service.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,9 +21,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 //DataJpaTest 는 뭐하는거지.
 @SpringBootTest
+@Transactional
 class UserRepositoryTest {
     @Autowired
     private  UserRepository userRepository;
+
+    @Mock
+    UserService userService;
 
     private User createOneUser(){
         User user = User.builder()
